@@ -30,3 +30,11 @@
 *.exe
 *.out
 *.app
+
+# Other
+/OpenGLRender/Dependencies/*
+/OpenGLRender/.vs/*
+*.vcxproj
+*.vcxproj.*
+*tlog
+/OpenGLRender/**/Debug
