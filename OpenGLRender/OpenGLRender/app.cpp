@@ -4,6 +4,7 @@
 #include <GLFW/glfw3.h>
 #include <iostream>
 #include "control.h"
+#include "renderer.h"
 
 const int WINDOW_WIDTH = 800;
 const int WINDOW_HEIGHT = 600;
@@ -29,14 +30,17 @@ int main() {
 		return -1;
 	}
 
-	glViewport(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);//screen Space?
+	//glViewport(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);//screen Space?
 	glfwSetFramebufferSizeCallback(window, [](GLFWwindow* window, int width, int height) {glViewport(0, 0, width, height); }); //resizing
+
+	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);//GL_FILL
 
 	while (!glfwWindowShouldClose(window)) {
 		glClearColor(0.4f, 0.2f, 0.8f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
 
 		renderer::processInput(window);
+		renderer::render();
 
 		glfwSwapBuffers(window);
 		glfwPollEvents();
