@@ -1,6 +1,6 @@
 #include "VertexBuffer.h"
 
-VertexBuffer::VertexBuffer(void* data, unsigned long size, int dataPerVertex, int layoutPosition)
+VertexBuffer::VertexBuffer(void* data, unsigned long size, int dataPerVertex, int layoutPosition, int offset, int stride)
 {
 	glGenBuffers(1, &m_VertexBufferId);
 	glBindBuffer(GL_ARRAY_BUFFER, m_VertexBufferId);
@@ -8,7 +8,7 @@ VertexBuffer::VertexBuffer(void* data, unsigned long size, int dataPerVertex, in
 	glBufferData(GL_ARRAY_BUFFER, size, data, GL_STATIC_DRAW);
 
 	//how to read that data
-	glVertexAttribPointer(layoutPosition, dataPerVertex, GL_FLOAT, GL_FALSE, 0, nullptr);
+	glVertexAttribPointer(layoutPosition, dataPerVertex, GL_FLOAT, GL_FALSE, stride, (void*)offset);
 	glEnableVertexAttribArray(layoutPosition);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 }

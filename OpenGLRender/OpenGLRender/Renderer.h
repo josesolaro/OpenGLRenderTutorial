@@ -2,5 +2,5 @@
 #include "GL/glew.h"
 
 namespace renderer {
-	void render();
+	void render(float elapsedTime);
 }

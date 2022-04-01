@@ -51,6 +51,17 @@ namespace renderer {
 		glUseProgram(0);
 	}
 
+	void ShaderProgram::SetUniform4f(const char* uniformName, float* vec4)
+	{
+		uint32_t id = glGetUniformLocation(m_ProgramId, uniformName);
+		glUniform4fv(id, 1, vec4);
+	}
+
+	void ShaderProgram::SetUniform1f(const char* uniformName, float value) {
+		uint32_t id = glGetUniformLocation(m_ProgramId, uniformName);
+		glUniform1f(id, value);
+	}
+
 	ShaderProgramSource ShaderProgram::LoadShaderSource(const char* filePath) {
 		enum class ShaderType {
 			NONE = 0,

@@ -3,7 +3,7 @@
 
 class VertexBuffer {
 public:
-	VertexBuffer(void* data, unsigned long size, int dataPerVertex, int layoutPosition);
+	VertexBuffer(void* data, unsigned long size, int dataPerVertex, int layoutPosition, int offset, int stride);
 	~VertexBuffer();
 	void Bind();
 	void Unbind();

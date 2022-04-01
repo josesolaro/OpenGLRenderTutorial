@@ -7,39 +7,31 @@
 
 namespace renderer {
 
-	void render() {
+	void render(float elapsedTime) {
 
 		ShaderProgram program = ShaderProgram("shaders/uni.shader");
-
 		
-		int dataPerVertex = 3;
 		float vertices[] = {
-			-0.5f, -0.5f, 0.0f,
-			 0.5f, -0.5f, 0.0f,
-			 0.5f,  0.5f, 0.0f,
-			-0.5f,  0.5f, 0.0f,
+			-0.5f, 0.5f, 0.0f,		1.0f, 0.0f, 0.0f, 
+			 0.5f, 0.5f, 0.0f,		0.0f, 1.0f, 0.0f,
+			 0.0f, -0.5f, 0.0f,		0.0f, 0.0f, 1.0f,
 		};
 
-		unsigned int indices[] = {
-			0, 1, 2,
-			2, 3, 0
-		};
 		////pack some buffers together
 		VertexArray vertexArray = VertexArray();
 		vertexArray.Bind();
-		
-		VertexBuffer vertexBuffer = VertexBuffer((void*)vertices, sizeof(vertices), dataPerVertex, 0);
-		IndexBuffer indexBuffer = IndexBuffer(indices, sizeof(indices));
-		
-		////VAO stores unbind of glBindBUffer(index) so first unbind vertexarray
-		vertexArray.Unbind();
-		indexBuffer.Unbind();
+
+		VertexBuffer vertexBufferPos = VertexBuffer((void*)vertices, sizeof(vertices), 3, 0, 0, 6 * sizeof(float));
+		VertexBuffer vertexBufferColor = VertexBuffer((void*)vertices, sizeof(vertices), 3, 1, 3 * sizeof(float), 6 * sizeof(float));
 
 		program.Bind();
 
-		
-		vertexArray.Bind();
-		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+		program.SetUniform1f("hOffset", -0.5f);
+		glDrawArrays(GL_TRIANGLES, 0, 3);
+
+		vertexBufferPos.Unbind();
+		vertexBufferColor.Unbind();
+		program.Unbind();
 
 	}
 }
