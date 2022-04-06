@@ -3,13 +3,15 @@
 
 layout(location = 0) in vec3 aPos;
 layout(location = 1) in vec3 aColor;
-
-uniform float hOffset;
+layout(location = 2) in vec2 aTexCoord;
 
 out vec3 fragColor;
+out vec2 texCoord;
+
 void main() {
-	gl_Position = vec4(aPos.x + hOffset, aPos.y, aPos.z, 1.0);
+	gl_Position = vec4(aPos, 1.0);
 	fragColor = aColor;
+	texCoord = aTexCoord;
 }
 
 #!FRAGMENT
@@ -17,7 +19,12 @@ void main() {
 
 out vec4 color;
 in vec3 fragColor;
+in vec2 texCoord;
+uniform sampler2D boxTexture;
+uniform sampler2D faceTexture;
+uniform float texMix;
 
 void main() {
-	color = vec4(fragColor, 1.0f);
+	color = mix(texture(boxTexture, texCoord), 
+		texture(faceTexture, vec2(1.0f- texCoord.x, texCoord.y)), texMix);
 }

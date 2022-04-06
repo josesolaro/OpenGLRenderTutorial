@@ -5,6 +5,9 @@
 #include <iostream>
 #include "control.h"
 #include "renderer.h"
+#include "vendor/imgui/imgui.h"
+#include "vendor/imgui/imgui_impl_glfw.h"
+#include "vendor/imgui/imgui_impl_opengl3.h"
 
 const int WINDOW_WIDTH = 800;
 const int WINDOW_HEIGHT = 600;
@@ -39,17 +42,36 @@ int main() {
 
 	//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);//GL_FILL
 
+	ImGui::CreateContext();
+	ImGui::StyleColorsDark();
+	ImGui_ImplGlfw_InitForOpenGL(window, true);
+	ImGui_ImplOpenGL3_Init("#version 330");
+
+	float mixTexture = 0.0f;
 	while (!glfwWindowShouldClose(window)) {
 		glClearColor(0.4f, 0.2f, 0.8f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
-
+		{
+			ImGui_ImplOpenGL3_NewFrame();
+			ImGui_ImplGlfw_NewFrame();
+			ImGui::NewFrame();
+			ImGui::Begin("Options");
+			ImGui::SliderFloat("Mix texture", &mixTexture, 0.0f, 1.0f);
+			ImGui::End();
+			ImGui::Render();
+			ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+		}
 		renderer::processInput(window);
-		renderer::render(glfwGetTime());
+		renderer::render(glfwGetTime(), mixTexture);
 
 		glfwSwapBuffers(window);
 		glfwPollEvents();
 	}
 
+	ImGui_ImplOpenGL3_Shutdown();
+	ImGui_ImplGlfw_Shutdown();
+	ImGui::DestroyContext();
+	glfwDestroyWindow(window);
 	glfwTerminate();
 	return 0;
 }
