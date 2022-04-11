@@ -2,5 +2,5 @@
 #include "GL/glew.h"
 
 namespace renderer {
-	void render(float elapsedTime, float mixTexture);
+	void render(float wWidth, float wHeight, float elapsedTime, float mixTexture);
 }

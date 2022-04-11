@@ -27,6 +27,8 @@ int main() {
 	glfwSwapInterval(1);
 	glfwMakeContextCurrent(window);
 
+	glEnable(GL_DEPTH_TEST);
+
 	if (glewInit() != GLEW_OK) {
 		std::cout << "Failed to Init GLEW" << std::endl;
 		glfwTerminate();
@@ -50,7 +52,7 @@ int main() {
 	float mixTexture = 0.0f;
 	while (!glfwWindowShouldClose(window)) {
 		glClearColor(0.4f, 0.2f, 0.8f, 1.0f);
-		glClear(GL_COLOR_BUFFER_BIT);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		{
 			ImGui_ImplOpenGL3_NewFrame();
 			ImGui_ImplGlfw_NewFrame();
@@ -62,7 +64,7 @@ int main() {
 			ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 		}
 		renderer::processInput(window);
-		renderer::render(glfwGetTime(), mixTexture);
+		renderer::render(WINDOW_WIDTH, WINDOW_HEIGHT, glfwGetTime(), mixTexture);
 
 		glfwSwapBuffers(window);
 		glfwPollEvents();

@@ -56,6 +56,10 @@ namespace renderer {
 		uint32_t id = glGetUniformLocation(m_ProgramId, uniformName);
 		glUniform4fv(id, 1, vec4);
 	}
+	void ShaderProgram::SetUniformMatrix4f(const char* uniform, float* mat4) {
+		uint32_t id = glGetUniformLocation(m_ProgramId, uniform);
+		glUniformMatrix4fv(id, 1, GL_FALSE, mat4);
+	}
 
 	void ShaderProgram::SetUniform1f(const char* uniformName, float value) {
 		uint32_t id = glGetUniformLocation(m_ProgramId, uniformName);
